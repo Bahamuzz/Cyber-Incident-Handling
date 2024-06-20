@@ -29,6 +29,8 @@ The incident response process has several phases. The **initial phase** involves
   * [Command "fdisk"](#command-fdisk)
   * ["proc" directory](#proc-directory)
 - [ACCOUNT INFORMATION](#account-information)
+  * [Command "w"](#command-w)
+
 
 
 
@@ -144,7 +146,7 @@ major minor  #blocks  name
 
 # Command "w"
 Command used to display details about currently logged on users
-```bash
+```sh
 w
  11:55:56 up 42 min,  1 user,  load average: 0.08, 0.08, 0.08
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
