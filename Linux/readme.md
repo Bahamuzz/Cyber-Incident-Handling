@@ -19,7 +19,7 @@ The incident response process has several phases. The **initial phase** involves
 
 
 ## Table of Contents
-- [Command "hostname"](#Command-"hostname")
+- [Command "hostname"](#command-hostname)
 - [Windows](#Windows)
   * [OS Queries](#os-queries)
   * [Account Queries](#account-queries)
@@ -49,7 +49,6 @@ The following commands have been performed on a Kali VM
 
 # Command "hostname"
 Command used to obtain the machine hostname
-#### CMD
 ```bat
 hostname -s
 kali
