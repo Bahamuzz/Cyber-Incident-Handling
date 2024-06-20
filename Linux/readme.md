@@ -46,35 +46,35 @@ The following commands have been performed on a fresh Kali VM installation
 
 # Command "hostname"
 Command used to obtain the machine hostname
-```bat
+```bash
 hostname -s
 kali
 ```
 
 # Command "date"
 Command used to obtain the machine date and time. "-u" for UTC time
-```bat
+```bash
 date -u
 Thu Jun 20 03:31:58 PM UTC 2024
 ```
 
 # Command "uptime"
 Command used to display how long the machine has been running, number of logged on users and system load average for the last 1, 5 and 15 minutes.
-```bat
+```bash
 uptime   
 11:35:05 up 21 min,  1 user,  load average: 0.20, 0.09, 0.08
 ```
 
 # Command "uname"
 Command used to get system information. "-a" will display all available information
-```bat
+```bash
 uname -a
 Linux kali 6.6.15-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.15-2kali1 (2024-05-17) x86_64 GNU/Linux
 ```
 
 # Command "free"
 Command used to display the amount of free/used physical and swap memory of the machine. Using "-h" option for human readable format
-```bat
+```bash
 free -h
                total        used        free      shared  buff/cache   available
 Mem:           1.9Gi       927Mi       608Mi        11Mi       593Mi       1.0Gi
@@ -83,7 +83,7 @@ Swap:          1.0Gi          0B       1.0Gi
 
 # Command "df"
 Command used to display system usage. "-a" for all info and "-h" for human readable
-```bat
+```bash
 df -ah
 Filesystem      Size  Used Avail Use% Mounted on
 sysfs              0     0     0    - /sys
@@ -114,7 +114,7 @@ portal          0.0K  0.0K  0.0K    - /run/user/1000/doc
 
 # Command "fdisk"
 Command used to display partition table information. "-l" for associated info
-```bat
+```bash
 Disk /dev/sda: 80.09 GiB, 86000000000 bytes, 167968750 sectors
 Disk model: VBOX HARDDISK   
 Units: sectors of 1 * 512 = 512 bytes
@@ -129,7 +129,7 @@ Device     Boot Start       End   Sectors  Size Id Type
 
 # "proc" directory
 There are plenty of files on "/proc" directory in which we can find system information. Some useful examples are:
-```bat
+```bash
 cat /proc/partitions 
 major minor  #blocks  name
 
@@ -146,7 +146,7 @@ major minor  #blocks  name
 
 # Command "w"
 Command used to display details about currently logged on users
-```sh
+```bash
 w
  11:55:56 up 42 min,  1 user,  load average: 0.08, 0.08, 0.08
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
