@@ -20,25 +20,11 @@ The incident response process has several phases. The **initial phase** involves
 
 ## Table of Contents
 - [Command "hostname"](#command-hostname)
-- [Windows](#Windows)
-  * [OS Queries](#os-queries)
-  * [Account Queries](#account-queries)
-  * [Service Queries](#service-queries)
-  * [Network Queries](#network-queries)
-  * [Remoting Queries](#remoting-queries)
-  * [Firewall Queries](#firewall-queries)
-  * [SMB Queries](#smb-queries)
-  * [Process Queries](#process-queries)
-  * [Recurring Task Queries](#recurring-task-queries)
-  * [File Queries](#file-queries)
-  * [Registry Queries](#registry-queries)
-  * [Driver Queries](#driver-queries)
-  * [DLL Queries](#dll-queries)
-  * [AV Queries](#AV-Queries)
-  * [Log Queries](#log-queries)
-  * [Powershell Tips](#powershell-tips)
-- [Linux](#linux)
-  * [Bash History](#bash-history)
+- [Command "date"](#command-date)
+- [Command "uptime"](#command-uptime)
+- [Command "uname"](#command-uname)
+- [Command "free"](#command-free)
+
 
 
 ---
@@ -52,4 +38,34 @@ Command used to obtain the machine hostname
 ```bat
 hostname -s
 kali
+```
+
+# Command "date"
+Command used to obtain the machine date and time. "-u" for UTC time
+```bat
+date -u
+Thu Jun 20 03:31:58 PM UTC 2024
+```
+
+# Command "uptime"
+Command used to display how long the machine has been running, number of logged on users and system load average for the last 1, 5 and 15 minutes.
+```bat
+uptime   
+11:35:05 up 21 min,  1 user,  load average: 0.20, 0.09, 0.08
+```
+
+# Command "uname"
+Command used to get system information. "-a" will display all available information
+```bat
+uname -a
+Linux kali 6.6.15-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.15-2kali1 (2024-05-17) x86_64 GNU/Linux
+```
+
+# Command "free"
+Command used to display the amount of free/used physical and swap memory of the machine. Using "-h" option for human readable format
+```bat
+free -h
+               total        used        free      shared  buff/cache   available
+Mem:           1.9Gi       927Mi       608Mi        11Mi       593Mi       1.0Gi
+Swap:          1.0Gi          0B       1.0Gi
 ```
