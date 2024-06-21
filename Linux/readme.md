@@ -22,6 +22,7 @@ The incident response process has several phases. The **initial phase** involves
 - [SYSTEM INFORMATION](#system-information)
   * [Command "hostname"](#command-hostname)
   * [Command "date"](#command-date)
+  * [Command "timedatectl"](#command-timedatectl)
   * [Command "uptime"](#command-uptime)
   * [Command "uname"](#command-uname)
   * [Command "free"](#command-free)
@@ -30,8 +31,16 @@ The incident response process has several phases. The **initial phase** involves
   * ["proc" directory](#proc-directory)
 - [ACCOUNT INFORMATION](#account-information)
   * [Command "w"](#command-w)
-
-
+  * [Command "who"](#command-who)
+  * [Command "last"](#command-last)
+  * [Command "faillog"](#command-faillog)
+  * [Shadow file](#shadow-file)
+  * [Group file](#group-file)
+  * [Sudoers file](#sudoers-file)
+  * [Command "history"](#command-history)
+- [NETWORK INFORMATION](#network-information)
+  * [Command "ifconfig"](#command-ifconfig)
+  * [Command "netstat"](#command-netstat)
 
 
 ---
@@ -56,6 +65,19 @@ Command used to obtain the machine date and time. "-u" for UTC time
 ```bash
 date -u
 Thu Jun 20 03:31:58 PM UTC 2024
+```
+
+# Command "timedatectl"
+Command used to query and change the system clock and its settings
+```bash
+timedatectl
+               Local time: Fri 2024-06-21 10:31:47 EDT
+           Universal time: Fri 2024-06-21 14:31:47 UTC
+                 RTC time: Tue 2024-06-18 07:51:14
+                Time zone: America/New_York (EDT, -0400)
+System clock synchronized: no
+              NTP service: inactive
+          RTC in local TZ: no
 ```
 
 # Command "uptime"
@@ -151,4 +173,93 @@ w
  11:55:56 up 42 min,  1 user,  load average: 0.08, 0.08, 0.08
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 kali              -                Tue02    2days  0.00s  0.03s lightdm --session-child 13 24
+```
+
+# Command "who"
+Alternative to "w" command
+```bash
+who     
+kali     tty7         2024-06-18 02:41 (:0)
+kali     pts/1        2024-06-20 11:45
+```
+
+# Command "last"
+Command used to display information about the last logged-in users. "tail -20" will display last 20 attempts
+```bash
+last | tail -20
+
+kali     tty7         :0               Tue Jun 18 02:41    gone - no logout
+reboot   system boot  6.6.15-amd64     Tue Jun 18 02:39   still running
+kali     tty7         :0               Sat Jun  8 17:09 - 02:15 (1+09:05)
+reboot   system boot  6.6.15-amd64     Sat Jun  8 17:09 - 02:15 (1+09:05)
+
+wtmp begins Sat Jun  8 17:09:14 2024
+```
+
+# Command "faillog"
+Command used to display formatted information of the failure log from /var/log/faillog
+```bash
+faillog -a
+Login       Failures Maximum Latest                   On
+
+root            0        0   12/31/69 19:00:00 -0500
+```
+
+# Shadow file
+File that list all the local users
+```bash
+cut -d: -f1 /etc/shadow
+user1
+user2
+```
+
+# Group file
+File that list all the local groups
+```bash
+cut -d: -f1 /etc/group
+group1
+group2
+```
+
+# Sudoers file
+Is a configuration file used by the sudo command, which allows a permitted user to execute a command as another user (typically the superuser, or root)
+```bash
+cat /etc/sudoers
+```
+
+# Command "history"
+Command used to review the commands used previously. If reviewing from non-root, only will see the history of that user.
+```bash
+history       
+    1  apt-get update
+    2  apt-get upgrade
+```
+
+---
+
+# NETWORK INFORMATION
+
+---
+
+# Command "ifconfig"
+Command used to get status information about a host´s interface configuration
+```bash
+ifconfig -a
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet x.x.x.x  netmask x.x.x.x  broadcast x.x.x.x
+        inet6 x::x:x:x:x  prefixlen 64  scopeid 0x20<link>
+        ether x:x:x:x:x:x  txqueuelen 1000  (Ethernet)
+        RX packets 434  bytes 197828 (193.1 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 403  bytes 39722 (38.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+
+# Command "netstat"
+Command used to display the contents of various network-related data structures for active connections. "-antup" connectors for the following format
+```bash
+netstat -antup
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+udp        0      0 x.x.x.x:x            x.x.x.x:x             ESTABLISHED 614/NetworkManager
 ```
