@@ -41,6 +41,20 @@ The incident response process has several phases. The **initial phase** involves
 - [NETWORK INFORMATION](#network-information)
   * [Command "ifconfig"](#command-ifconfig)
   * [Command "netstat"](#command-netstat)
+  * [Command "route"](#command-route)
+  * [Command "arp"](#command-arp)
+  * [Command "lsof-i"](#command-lsof-i)
+- [PROCESSES AND SERVICES](#processes-and-services)
+  * [Command "ps"](#command-ps)
+  * [Command "top"](#command-top)
+  * [Command "service"](#command-service)
+  * [Command "systemctl"](#command-systemctl)
+  * [Command "lsmod"](#command-lsmod)
+  * [Command "lsof"](#command-lsof)
+  * [Command "ls"](#command-ls)
+  * [Command "less"](#command-less)
+- [AUTORUN AND AUTOLOAD INFORMATION](#autorun-and-autoload-information)
+  * [Command "crontab"](#command-crontab)
 
 
 ---
@@ -117,21 +131,6 @@ tmpfs           198M 1016K  197M   1% /run
 securityfs         0     0     0    - /sys/kernel/security
 tmpfs           989M     0  989M   0% /dev/shm
 tmpfs           5.0M     0  5.0M   0% /run/lock
-cgroup2            0     0     0    - /sys/fs/cgroup
-pstore             0     0     0    - /sys/fs/pstore
-bpf                0     0     0    - /sys/fs/bpf
-systemd-1          -     -     -    - /proc/sys/fs/binfmt_misc
-hugetlbfs          0     0     0    - /dev/hugepages
-mqueue             0     0     0    - /dev/mqueue
-tracefs            0     0     0    - /sys/kernel/tracing
-debugfs            0     0     0    - /sys/kernel/debug
-configfs           0     0     0    - /sys/kernel/config
-fusectl            0     0     0    - /sys/fs/fuse/connections
-binfmt_misc        0     0     0    - /proc/sys/fs/binfmt_misc
-sunrpc             0     0     0    - /run/rpc_pipefs
-tmpfs           198M  124K  198M   1% /run/user/1000
-gvfsd-fuse      0.0K  0.0K  0.0K    - /run/user/1000/gvfs
-portal          0.0K  0.0K  0.0K    - /run/user/1000/doc
 ```
 
 # Command "fdisk"
@@ -256,10 +255,169 @@ eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 ```
 
 # Command "netstat"
-Command used to display the contents of various network-related data structures for active connections. "-antup" connectors for the following format
+Command used to display the contents of various network-related data structures for active connections. "-antup" connectors for the following format, "plantux" for all unix.
 ```bash
 netstat -antup
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
 udp        0      0 x.x.x.x:x            x.x.x.x:x             ESTABLISHED 614/NetworkManager
 ```
+
+# Command "route"
+Command used to show/manipulate the IP routing table
+```bash
+route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         10.0.2.2        0.0.0.0         UG    100    0        0 eth0
+10.0.2.0        0.0.0.0         255.255.255.0   U     100    0        0 eth0
+```
+
+# Command "arp"
+Command used to show/manipulate the system ARP cache
+```bash
+arp -a
+? (10.0.2.2) at 52:54:00:12:35:02 [ether] on eth0
+```
+
+# Command "lsof -i"
+Command used to show list of processes on open ports
+```bash
+lsof -i
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+NetworkMa 593 root   26u  IPv4   7256      0t0  UDP 10.0.2.15:bootpc->10.0.2.2:bootps 
+```
+
+---
+
+# PROCESSES AND SERVICES
+
+---
+
+# Command "ps"
+Command used to display information about system processes. "aux" to display in-depth details
+```bash
+ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.6  22640 13172 ?        Ss   08:23   0:00 /sbin/init splash
+root           2  0.0  0.0      0     0 ?        S    08:23   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    08:23   0:00 [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   08:23   0:00 [kworker/R-rcu_g]
+```
+
+# Command "top"
+Command used to show additional info about the current running processes
+```bash
+top           
+top - 08:40:21 up 16 min,  1 user,  load average: 0.00, 0.05, 0.07
+Tasks: 173 total,   1 running, 172 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  1.1 us,  1.0 sy,  0.0 ni, 97.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   1976.7 total,    406.2 free,    975.7 used,    760.4 buff/cache     
+MiB Swap:   1024.0 total,   1024.0 free,      0.0 used.   1001.1 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                               
+    748 root      20   0  404300 125776  57736 S   2.3   6.2   0:09.01 Xorg
+   1180 kali      20   0  460004 104544  88352 S   1.0   5.2   0:05.04 qterminal
+    251 root      20   0       0      0      0 I   0.3   0.0   0:00.11 kworker/0:3-events
+```
+
+# Command "service"
+Command used to provide the status of each service using "--status-all
+```bash
+service --status-all
+ [ - ]  apache-htcacheclean
+ [ - ]  apache2
+ [ - ]  apparmor
+ [ - ]  atftpd
+ [ - ]  bluetooth
+ [ - ]  console-setup.sh
+ [ + ]  cron
+```
+
+# Command "systemctl"
+Another command to display a list of system services and the associated state. "list-units --type=service --state=running" for current running processes
+```bash
+systemctl list-units --type=service --state=running 
+  UNIT                           LOAD   ACTIVE SUB     DESCRIPTION                                   
+  accounts-daemon.service        loaded active running Accounts Service
+  colord.service                 loaded active running Manage, Install and Generate Color Profiles
+  cron.service                   loaded active running Regular background program processing daemon
+  dbus.service                   loaded active running D-Bus System Message Bus
+```
+
+# Command "lsmod"
+Command used to show the status of modules in the Linux Kernel
+```bash
+lsmod  
+Module                  Size  Used by
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+snd_seq               114688  7 snd_seq_dummy
+snd_seq_device         16384  1 snd_seq
+rfkill                 40960  2
+qrtr                   57344  4
+vboxsf                 49152  0
+```
+
+# Command "lsof"
+Command used to list open files. "-c <PROCESS NAME>" to list open files on specific process:
+```bash
+lsof -c cron
+COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
+cron    604 root  cwd    DIR                8,1     4096 2490640 /var/spool/cron
+cron    604 root  rtd    DIR                8,1     4096       2 /
+cron    604 root  txt    REG                8,1    60064 4456874 /usr/sbin/cron
+```
+
+Command "lsof -nPi | cut -f 1 -d " "| uniq | tail -n +2" to list open files using the network:
+```bash
+lsof -nPi | cut -f 1 -d " "| uniq | tail -n +2
+NetworkMa
+```
+
+Command "-p <PID>" to list open files by specific PID 
+```bash
+lsof -p 604                                   
+COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
+cron    604 root  cwd    DIR                8,1     4096 2490640 /var/spool/cron
+cron    604 root  rtd    DIR                8,1     4096       2 /
+cron    604 root  txt    REG                8,1    60064 4456874 /usr/sbin/cron
+cron    604 root  mem    REG                8,1  3052896 4759752 /usr/lib/locale/locale-archive
+cron    604 root  mem    REG                8,1    30632 4632772 /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
+```
+
+# Command "ls"
+Command used to the files of a directory. "-al /proc/<PID>/exe" to get the path of suspicious process PID:
+```bash
+ls -al /proc/604/exe 
+lrwxrwxrwx 1 root root 0 Jun 26 08:23 /proc/604/exe -> /usr/sbin/cron
+```
+
+# Command "less"
+Command used to monitor logs in real time, with option "+F /var/log/filename"
+```bash
+less +F /var/log/messages
+```
+
+---
+
+# AUTORUN AND AUTOLOAD INFORMATION
+
+---
+
+# Command "crontab"
+Crontab can be used to review or schedule specific commands/tasks execution in Linux. To list all cron jobs will use "-l"
+```bash
+# crontab -l
+# Edit this file to introduce tasks to be run by cron.
+10 5 1 * * ls /var/log/ 
+```
+
+With option "-u root -l" will list cron jobs by root and other UID 0 accounts:
+```bash
+# crontab -u root -l
+# Edit this file to introduce tasks to be run by cron.
+10 5 1 * * ls /var/log/ 
+```
+
+Command "cat /etc/crontab" and "ls /etc/cron.*" to spot unusual cron jobs
