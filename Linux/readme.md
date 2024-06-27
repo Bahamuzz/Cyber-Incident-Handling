@@ -43,7 +43,8 @@ The incident response process has several phases. The **initial phase** involves
   * [Command "netstat"](#command-netstat)
   * [Command "route"](#command-route)
   * [Command "arp"](#command-arp)
-  * [Command "lsof-i"](#command-lsof-i)
+  * [Command "lsof--i"](#command-lsof--i)
+  * [Command "iptables"](#command-iptables)
 - [PROCESSES AND SERVICES](#processes-and-services)
   * [Command "ps"](#command-ps)
   * [Command "top"](#command-top)
@@ -286,6 +287,20 @@ Command used to show list of processes on open ports
 lsof -i
 COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 NetworkMa 593 root   26u  IPv4   7256      0t0  UDP 10.0.2.15:bootpc->10.0.2.2:bootps 
+```
+
+# Command "iptables"
+Command used to check the firewall iptables status. "-L -v" for list all rules with verbose
+```bash
+iptables -L -v 
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+
+Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination   
 ```
 
 ---
