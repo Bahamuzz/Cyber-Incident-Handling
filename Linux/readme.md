@@ -320,6 +320,20 @@ root           3  0.0  0.0      0     0 ?        S    08:23   0:00 [pool_workque
 root           4  0.0  0.0      0     0 ?        I<   08:23   0:00 [kworker/R-rcu_g]
 ```
 
+Also you can use "ps -ef --forest" to display it in a tree view:
+```bash
+ps -ef --forest
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           2       0  0 08:54 ?        00:00:00 [kthreadd]
+root           3       2  0 08:54 ?        00:00:00  \_ [rcu_gp]
+remnux      1472     864  0 08:54 ?        00:00:04  \_ /usr/libexec/gnome-terminal-server
+remnux      1496    1472  0 08:54 pts/0    00:00:00  |   \_ bash
+root        2827    1496  0 08:59 pts/0    00:00:00  |       \_ sudo su
+root        2828    2827  0 08:59 pts/0    00:00:00  |           \_ su
+root        2829    2828  0 08:59 pts/0    00:00:00  |               \_ bash
+root        6997    2829  0 11:33 pts/0    00:00:00  |                   \_ ps -ef --forest
+```
+
 # Command "top"
 Command used to show additional info about the current running processes
 ```bash
