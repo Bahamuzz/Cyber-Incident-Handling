@@ -364,9 +364,9 @@ service --status-all
 ```
 
 # Command "systemctl"
-Another command to display a list of system services and the associated state. "list-units --type=service --state=running" for current running processes
+Another command to display a list of system services and the associated state. "systemctl list-units --type=service --state=running --no-legend" for current running processes
 ```bash
-systemctl list-units --type=service --state=running 
+systemctl list-units --type=service --state=running --no-legend 
   UNIT                           LOAD   ACTIVE SUB     DESCRIPTION                                   
   accounts-daemon.service        loaded active running Accounts Service
   colord.service                 loaded active running Manage, Install and Generate Color Profiles
