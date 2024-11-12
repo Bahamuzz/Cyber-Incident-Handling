@@ -1,7 +1,7 @@
 # ----------------------------------------------
 # Script Name :    laner.py
 # Description :    Script to gather most common info on Linux systems when handling an incident. Linux ANalizER
-# Author      :    Rubén Vergara
+# Author      :    Bahamuzz
 # Date        :    2024-11-12
 # Version     :    1.0
 # Python Ver. :    3.x
