@@ -71,15 +71,16 @@ The following commands have been performed on a fresh Windows 11 VM installation
 # Command "hostname"
 Command used to obtain the machine hostname
 ```powershell
-hostname -s
-kali
+hostname
+win11-test
 ```
 
 # Command "date"
-Command used to obtain the machine date and time. "-u" for UTC time
-```bash
-date -u
-Thu Jun 20 03:31:58 PM UTC 2024
+Command used to obtain the machine date and time. Parameters "-date (Get-Date).ToUniversalTime()" for UTC time
+```powershell
+date -date (Get-Date).ToUniversalTime()
+
+15 November 2024 13:06:18
 ```
 
 # Command "timedatectl"
