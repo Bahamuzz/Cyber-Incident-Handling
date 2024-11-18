@@ -22,33 +22,21 @@ The incident response process has several phases. The **initial phase** involves
 - [SYSTEM INFORMATION](#system-information)
   * [Command "hostname"](#command-hostname)
   * [Command "date"](#command-date)
-  * [Command "timedatectl"](#command-timedatectl)
-  * [Command "uptime"](#command-uptime)
-  * [Command "uname"](#command-uname)
-  * [Command "free"](#command-free)
-  * [Command "df"](#command-df)
-  * [Command "fdisk"](#command-fdisk)
-  * ["proc" directory](#proc-directory)
+  * [Command "systeminfo"](#command-systeminfo)
 - [ACCOUNT INFORMATION](#account-information)
-  * [Command "w"](#command-w)
-  * [Command "who"](#command-who)
-  * [Command "last"](#command-last)
-  * [Command "faillog"](#command-faillog)
-  * [Shadow file](#shadow-file)
-  * [Group file](#group-file)
-  * [Sudoers file](#sudoers-file)
-  * [Command "history"](#command-history)
+  * [Command "net user"](#command-net-user)
+  * [Command "net localgroup"](#command-net-localgroup)
 - [NETWORK INFORMATION](#network-information)
-  * [Command "ifconfig"](#command-ifconfig)
+  * [Command "ipconfig"](#command-ipconfig)
   * [Command "netstat"](#command-netstat)
-  * [Command "route"](#command-route)
-  * [Command "arp"](#command-arp)
-  * [Command "lsof--i"](#command-lsof--i)
+  * [Command "net view"](#command-net-view)
+  * [Command "net session"](#command-net-session)
+  * [Command "net use"](#command-net-use)
   * [Command "iptables"](#command-iptables)
-- [PROCESSES AND SERVICES](#processes-and-services)
-  * [Command "ps"](#command-ps)
-  * [Command "top"](#command-top)
-  * [Command "service"](#command-service)
+- [TASK, PROCESSES AND SERVICES](#task-processes-and-services)
+  * [Command "schtasks"](#command-schtasks)
+  * [Command "tasklist"](#command-tasklist)
+  * [Command "wmic process"](#command-wmic-process)
   * [Command "systemctl"](#command-systemctl)
   * [Command "lsmod"](#command-lsmod)
   * [Command "lsof"](#command-lsof)
@@ -72,7 +60,7 @@ The following commands have been performed on a fresh Windows 11 VM installation
 Command used to obtain the machine hostname
 ```powershell
 hostname
-win11-test
+DESKTOP-O5LIVH3
 ```
 
 # Command "date"
@@ -80,85 +68,59 @@ Command used to obtain the machine date and time. Parameters "-date (Get-Date).T
 ```powershell
 date -date (Get-Date).ToUniversalTime()
 
-15 November 2024 13:06:18
+Friday, November 15, 2024 2:54:49 PM
 ```
 
-# Command "timedatectl"
-Command used to query and change the system clock and its settings
-```bash
-timedatectl
-               Local time: Fri 2024-06-21 10:31:47 EDT
-           Universal time: Fri 2024-06-21 14:31:47 UTC
-                 RTC time: Tue 2024-06-18 07:51:14
-                Time zone: America/New_York (EDT, -0400)
-System clock synchronized: no
-              NTP service: inactive
-          RTC in local TZ: no
-```
+# Command "systeminfo"
+Command used to query information about the host.
+```powershell
+systeminfo
 
-# Command "uptime"
-Command used to display how long the machine has been running, number of logged on users and system load average for the last 1, 5 and 15 minutes.
-```bash
-uptime   
-11:35:05 up 21 min,  1 user,  load average: 0.20, 0.09, 0.08
-```
-
-# Command "uname"
-Command used to get system information. "-a" will display all available information
-```bash
-uname -a
-Linux kali 6.6.15-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.15-2kali1 (2024-05-17) x86_64 GNU/Linux
-```
-
-# Command "free"
-Command used to display the amount of free/used physical and swap memory of the machine. Using "-h" option for human readable format
-```bash
-free -h
-               total        used        free      shared  buff/cache   available
-Mem:           1.9Gi       927Mi       608Mi        11Mi       593Mi       1.0Gi
-Swap:          1.0Gi          0B       1.0Gi
-```
-
-# Command "df"
-Command used to display system usage. "-a" for all info and "-h" for human readable
-```bash
-df -ah
-Filesystem      Size  Used Avail Use% Mounted on
-sysfs              0     0     0    - /sys
-proc               0     0     0    - /proc
-udev            948M     0  948M   0% /dev
-devpts             0     0     0    - /dev/pts
-tmpfs           198M 1016K  197M   1% /run
-/dev/sda1        79G   15G   61G  20% /
-securityfs         0     0     0    - /sys/kernel/security
-tmpfs           989M     0  989M   0% /dev/shm
-tmpfs           5.0M     0  5.0M   0% /run/lock
-```
-
-# Command "fdisk"
-Command used to display partition table information. "-l" for associated info
-```bash
-Disk /dev/sda: 80.09 GiB, 86000000000 bytes, 167968750 sectors
-Disk model: VBOX HARDDISK   
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disklabel type: dos
-Disk identifier: 0xc3a874f6
-
-Device     Boot Start       End   Sectors  Size Id Type
-/dev/sda1  *     2048 167968749 167966702 80.1G 83 Linux
-```
-
-# "proc" directory
-There are plenty of files on "/proc" directory in which we can find system information. Some useful examples are:
-```bash
-cat /proc/partitions 
-major minor  #blocks  name
-
-  11        0    1048575 sr0
-   8        0   83984375 sda
-   8        1   83983351 sda1
+Host Name:                 DESKTOP-O5LIVH3
+OS Name:                   Microsoft Windows 10 Pro
+OS Version:                10.0.19045 N/A Build 19045
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          testuser
+Registered Organization:
+Product ID:                00330-80000-00000-AA968
+Original Install Date:     11/15/2024, 6:39:45 AM
+System Boot Time:          11/15/2024, 6:47:45 AM
+System Manufacturer:       innotek GmbH
+System Model:              VirtualBox
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 186 Stepping 3 GenuineIntel ~2611 Mhz
+BIOS Version:              innotek GmbH VirtualBox, 12/1/2006
+Windows Directory:         C:\Windows
+System Directory:          C:\Windows\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              es;Spanish (Traditional Sort)
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     2,048 MB
+Available Physical Memory: 696 MB
+Virtual Memory: Max Size:  3,200 MB
+Virtual Memory: Available: 1,744 MB
+Virtual Memory: In Use:    1,456 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\DESKTOP-O5LIVH3
+Hotfix(s):                 5 Hotfix(s) Installed.
+                           [01]: KB5031988
+                           [02]: KB5015684
+                           [03]: KB5033372
+                           [04]: KB5014032
+                           [05]: KB5032907
+Network Card(s):           1 NIC(s) Installed.
+                           [01]: Intel(R) PRO/1000 MT Desktop Adapter
+                                 Connection Name: Ethernet
+                                 DHCP Enabled:    Yes
+                                 DHCP Server:     10.0.2.2
+                                 IP address(es)
+                                 [01]: 10.0.2.15
+                                 [02]: fe80::5e6:c588:576c:396d
 ```
 
 ---
@@ -167,73 +129,45 @@ major minor  #blocks  name
 
 ---
 
-# Command "w"
-Command used to display details about currently logged on users
-```bash
-w
- 11:55:56 up 42 min,  1 user,  load average: 0.08, 0.08, 0.08
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-kali              -                Tue02    2days  0.00s  0.03s lightdm --session-child 13 24
+# Command "net user"
+Command used to display current local users.
+```powershel
+net user
+
+User accounts for \\DESKTOP-O5LIVH3
+
+-------------------------------------------------------------------------------
+Administrator            DefaultAccount           Guest
+testuser                 WDAGUtilityAccount
 ```
 
-# Command "who"
-Alternative to "w" command
-```bash
-who     
-kali     tty7         2024-06-18 02:41 (:0)
-kali     pts/1        2024-06-20 11:45
-```
+# Command "net localgroup"
+Command used to get information about local host groups.
+```powershell
+net localgroup
 
-# Command "last"
-Command used to display information about the last logged-in users. "tail -20" will display last 20 attempts
-```bash
-last | tail -20
+Aliases for \\DESKTOP-O5LIVH3
 
-kali     tty7         :0               Tue Jun 18 02:41    gone - no logout
-reboot   system boot  6.6.15-amd64     Tue Jun 18 02:39   still running
-kali     tty7         :0               Sat Jun  8 17:09 - 02:15 (1+09:05)
-reboot   system boot  6.6.15-amd64     Sat Jun  8 17:09 - 02:15 (1+09:05)
-
-wtmp begins Sat Jun  8 17:09:14 2024
-```
-
-# Command "faillog"
-Command used to display formatted information of the failure log from /var/log/faillog
-```bash
-faillog -a
-Login       Failures Maximum Latest                   On
-
-root            0        0   12/31/69 19:00:00 -0500
-```
-
-# Shadow file
-File that list all the local users
-```bash
-cut -d: -f1 /etc/shadow
-user1
-user2
-```
-
-# Group file
-File that list all the local groups
-```bash
-cut -d: -f1 /etc/group
-group1
-group2
-```
-
-# Sudoers file
-Is a configuration file used by the sudo command, which allows a permitted user to execute a command as another user (typically the superuser, or root)
-```bash
-cat /etc/sudoers
-```
-
-# Command "history"
-Command used to review the commands used previously. If reviewing from non-root, only will see the history of that user.
-```bash
-history       
-    1  apt-get update
-    2  apt-get upgrade
+-------------------------------------------------------------------------------
+*Access Control Assistance Operators
+*Administrators
+*Backup Operators
+*Cryptographic Operators
+*Device Owners
+*Distributed COM Users
+*Event Log Readers
+*Guests
+*Hyper-V Administrators
+*IIS_IUSRS
+*Network Configuration Operators
+*Performance Log Users
+*Performance Monitor Users
+*Power Users
+*Remote Desktop Users
+*Remote Management Users
+*Replicator
+*System Managed Accounts Group
+*Users
 ```
 
 ---
@@ -242,83 +176,114 @@ history
 
 ---
 
-# Command "ifconfig"
-Command used to get status information about a host´s interface configuration
-```bash
-ifconfig -a
-eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet x.x.x.x  netmask x.x.x.x  broadcast x.x.x.x
-        inet6 x::x:x:x:x  prefixlen 64  scopeid 0x20<link>
-        ether x:x:x:x:x:x  txqueuelen 1000  (Ethernet)
-        RX packets 434  bytes 197828 (193.1 KiB)
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 403  bytes 39722 (38.7 KiB)
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+# Command "ipconfig"
+Command used to get status information about a host´s interface configuration. Use "/all" for extended info details.
+```powershell
+ipconfig /all
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : DESKTOP-O5LIVH3
+   Primary Dns Suffix  . . . . . . . :
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . :
+   Description . . . . . . . . . . . : Intel(R) PRO/1000 MT Desktop Adapter
+   Physical Address. . . . . . . . . : 08-00-27-43-33-26
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::5e6:c588:576c:396d%6(Preferred)
+   IPv4 Address. . . . . . . . . . . : 10.0.2.15(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : Sunday, November 17, 2024 11:37:04 PM
+   Lease Expires . . . . . . . . . . : Monday, November 18, 2024 11:41:45 PM
+   Default Gateway . . . . . . . . . : 10.0.2.2
+   DHCP Server . . . . . . . . . . . : 10.0.2.2
+   DHCPv6 IAID . . . . . . . . . . . : 101187623
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-2E-C9-93-C9-08-00-27-43-33-26
+   DNS Servers . . . . . . . . . . . : 10.103.21.230
+                                       10.103.21.231
+                                       212.166.132.110
+                                       212.166.132.104
+   NetBIOS over Tcpip. . . . . . . . : Enabled
 ```
 
 # Command "netstat"
-Command used to display the contents of various network-related data structures for active connections. "-antup" connectors for the following format, "plantux" for all unix.
-```bash
-netstat -antup
-Active Internet connections (servers and established)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-udp        0      0 x.x.x.x:x            x.x.x.x:x             ESTABLISHED 614/NetworkManager
+Command used to display the contents of various network-related data structures for active connections. "-naob" connectors for the following format.
+```powershell
+netstat -naob
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State           PID
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       880
+  RpcSs
+ [svchost.exe]
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4
+ Can not obtain ownership information
+  TCP    0.0.0.0:5040           0.0.0.0:0              LISTENING       1152
+  CDPSvc
+ [svchost.exe]
+  TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING       660
+ [lsass.exe]
+  TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING       508
+ Can not obtain ownership information
+  TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING       364
+  EventLog
+ [svchost.exe]
+  TCP    0.0.0.0:49667          0.0.0.0:0              LISTENING       388
+  Schedule
+ [svchost.exe]
+  TCP    0.0.0.0:49668          0.0.0.0:0              LISTENING       1880
+ [spoolsv.exe]
+  TCP    0.0.0.0:49669          0.0.0.0:0              LISTENING       644
 ```
 
-# Command "route"
-Command used to show/manipulate the IP routing table
-```bash
-route
-Kernel IP routing table
-Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
-default         10.0.2.2        0.0.0.0         UG    100    0        0 eth0
-10.0.2.0        0.0.0.0         255.255.255.0   U     100    0        0 eth0
+# Command "net view"
+Command used to display file share status on the local machine.
+```powershell
+net view \\localhost
+There are no entries in the list.
 ```
 
-# Command "arp"
-Command used to show/manipulate the system ARP cache
-```bash
-arp -a
-? (10.0.2.2) at 52:54:00:12:35:02 [ether] on eth0
+# Command "net session"
+Command used to check if there is any SMB or NetBIOS connections established to machine´s network shares.
+```powershell
+net session
+There are no entries in the list.
 ```
 
-# Command "lsof -i"
-Command used to show list of processes on open ports
-```bash
-lsof -i
-COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
-NetworkMa 593 root   26u  IPv4   7256      0t0  UDP 10.0.2.15:bootpc->10.0.2.2:bootps 
-```
+# Command "net use"
+Command used to check sessions originating from your host machine.
+```powershell
+net use
+New connections will be remembered.
 
-# Command "iptables"
-Command used to check the firewall iptables status. "-L -v" for list all rules with verbose
-```bash
-iptables -L -v 
-Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
- pkts bytes target     prot opt in     out     source               destination         
-
-Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
- pkts bytes target     prot opt in     out     source               destination         
-
-Chain OUTPUT (policy ACCEPT 0 packets, 0 bytes)
- pkts bytes target     prot opt in     out     source               destination   
+There are no entries in the list.
 ```
 
 ---
 
-# PROCESSES AND SERVICES
+# TASK, PROCESSES AND SERVICES
 
 ---
 
-# Command "ps"
-Command used to display information about system processes. "aux" to display in-depth details
-```bash
-ps aux
-USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root           1  0.0  0.6  22640 13172 ?        Ss   08:23   0:00 /sbin/init splash
-root           2  0.0  0.0      0     0 ?        S    08:23   0:00 [kthreadd]
-root           3  0.0  0.0      0     0 ?        S    08:23   0:00 [pool_workqueue_release]
-root           4  0.0  0.0      0     0 ?        I<   08:23   0:00 [kworker/R-rcu_g]
+# Command "schtasks"
+Command used to display information about system scheduled tasks. Use "/FO table" for output in format table.
+```powershell
+SCHTASKS /FO table
+
+Folder: \
+TaskName                                 Next Run Time          Status
+======================================== ====================== ===============
+MicrosoftEdgeUpdateTaskMachineCore       11/18/2024 4:14:07 PM  Ready
+MicrosoftEdgeUpdateTaskMachineUA         11/18/2024 7:44:07 AM  Ready
+OneDrive Reporting Task-S-1-5-21-3910765 11/18/2024 7:46:13 AM  Ready
+OneDrive Standalone Update Task-S-1-5-21 11/19/2024 7:05:03 AM  Ready
 ```
 
 Also you can use "ps -ef --forest" to display it in a tree view:
@@ -335,33 +300,75 @@ root        2829    2828  0 08:59 pts/0    00:00:00  |               \_ bash
 root        6997    2829  0 11:33 pts/0    00:00:00  |                   \_ ps -ef --forest
 ```
 
-# Command "top"
-Command used to show additional info about the current running processes
-```bash
-top           
-top - 08:40:21 up 16 min,  1 user,  load average: 0.00, 0.05, 0.07
-Tasks: 173 total,   1 running, 172 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  1.1 us,  1.0 sy,  0.0 ni, 97.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
-MiB Mem :   1976.7 total,    406.2 free,    975.7 used,    760.4 buff/cache     
-MiB Swap:   1024.0 total,   1024.0 free,      0.0 used.   1001.1 avail Mem 
+# Command "tasklist"
+Command used to show current running processes on the system. Option "/v" for verbose. Also "/SVC" to check associated services to processes.
+```powershell
+tasklist
 
-    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                                                                               
-    748 root      20   0  404300 125776  57736 S   2.3   6.2   0:09.01 Xorg
-   1180 kali      20   0  460004 104544  88352 S   1.0   5.2   0:05.04 qterminal
-    251 root      20   0       0      0      0 I   0.3   0.0   0:00.11 kworker/0:3-events
+Image Name                     PID Session Name        Session#    Mem Usage
+========================= ======== ================ =========== ============
+System Idle Process              0 Services                   0          8 K
+System                           4 Services                   0        136 K
+Registry                        92 Services                   0     31,364 K
+smss.exe                       336 Services                   0        964 K
+csrss.exe                      436 Services                   0      4,728 K
+wininit.exe                    508 Services                   0      6,328 K
+csrss.exe                      516 Console                    1      3,312 K
 ```
 
-# Command "service"
-Command used to provide the status of each service using "--status-all
-```bash
-service --status-all
- [ - ]  apache-htcacheclean
- [ - ]  apache2
- [ - ]  apparmor
- [ - ]  atftpd
- [ - ]  bluetooth
- [ - ]  console-setup.sh
- [ + ]  cron
+# Command "wmic process"
+If we want to analyze further a specific process ID seen on tasklist, we can do it with "wmic process" command, filtering by the following:
+```powershell
+wmic process where ProcessId=2592 list full
+
+
+CommandLine="ctfmon.exe"
+CSName=DESKTOP-O5LIVH3
+Description=ctfmon.exe
+ExecutablePath=C:\Windows\system32\ctfmon.exe
+ExecutionState=
+Handle=2592
+HandleCount=416
+InstallDate=
+KernelModeTime=781250
+MaximumWorkingSetSize=1380
+MinimumWorkingSetSize=200
+Name=ctfmon.exe
+OSName=Microsoft Windows 10 Pro|C:\Windows|\Device\Harddisk0\Partition2
+OtherOperationCount=988
+OtherTransferCount=3024
+PageFaults=5579
+PageFileUsage=3792
+ParentProcessId=1032
+PeakPageFileUsage=3856
+PeakVirtualSize=2203462483968
+PeakWorkingSetSize=20152
+Priority=13
+PrivatePageCount=3883008
+ProcessId=2592
+QuotaNonPagedPoolUsage=16
+QuotaPagedPoolUsage=193
+QuotaPeakNonPagedPoolUsage=17
+QuotaPeakPagedPoolUsage=195
+ReadOperationCount=0
+ReadTransferCount=0
+SessionId=1
+Status=
+TerminationDate=
+ThreadCount=9
+UserModeTime=937500
+VirtualSize=2203457953792
+WindowsVersion=10.0.19045
+WorkingSetSize=19062784
+WriteOperationCount=0
+WriteTransferCount=0
+```
+
+If we want to filter by specific fields:
+```powershell
+wmic process where processid=2592 get name,processid,executablepath,commandline
+CommandLine   ExecutablePath                  Name        ProcessId
+"ctfmon.exe"  C:\Windows\system32\ctfmon.exe  ctfmon.exe  2592
 ```
 
 # Command "systemctl"
