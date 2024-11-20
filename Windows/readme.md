@@ -32,18 +32,13 @@ The incident response process has several phases. The **initial phase** involves
   * [Command "net view"](#command-net-view)
   * [Command "net session"](#command-net-session)
   * [Command "net use"](#command-net-use)
-  * [Command "iptables"](#command-iptables)
-- [TASK, PROCESSES AND SERVICES](#task-processes-and-services)
+- [AUTORUN, TASK, PROCESSES AND SERVICES](#autorun-task-processes-and-services)
   * [Command "schtasks"](#command-schtasks)
   * [Command "tasklist"](#command-tasklist)
   * [Command "wmic process"](#command-wmic-process)
-  * [Command "systemctl"](#command-systemctl)
-  * [Command "lsmod"](#command-lsmod)
-  * [Command "lsof"](#command-lsof)
-  * [Command "ls"](#command-ls)
-  * [Command "less"](#command-less)
-- [AUTORUN AND AUTOLOAD INFORMATION](#autorun-and-autoload-information)
-  * [Command "crontab"](#command-crontab)
+  * [Command "wmic startup"](#command-wmic-startup)
+  * [Command "wmic service"](#command-wmic-service)
+  * [Command "reg query"](#command-reg-query)
 
 
 ---
@@ -268,7 +263,7 @@ There are no entries in the list.
 
 ---
 
-# TASK, PROCESSES AND SERVICES
+# AUTORUN, TASK, PROCESSES AND SERVICES
 
 ---
 
@@ -286,22 +281,8 @@ OneDrive Reporting Task-S-1-5-21-3910765 11/18/2024 7:46:13 AM  Ready
 OneDrive Standalone Update Task-S-1-5-21 11/19/2024 7:05:03 AM  Ready
 ```
 
-Also you can use "ps -ef --forest" to display it in a tree view:
-```bash
-ps -ef --forest
-UID          PID    PPID  C STIME TTY          TIME CMD
-root           2       0  0 08:54 ?        00:00:00 [kthreadd]
-root           3       2  0 08:54 ?        00:00:00  \_ [rcu_gp]
-remnux      1472     864  0 08:54 ?        00:00:04  \_ /usr/libexec/gnome-terminal-server
-remnux      1496    1472  0 08:54 pts/0    00:00:00  |   \_ bash
-root        2827    1496  0 08:59 pts/0    00:00:00  |       \_ sudo su
-root        2828    2827  0 08:59 pts/0    00:00:00  |           \_ su
-root        2829    2828  0 08:59 pts/0    00:00:00  |               \_ bash
-root        6997    2829  0 11:33 pts/0    00:00:00  |                   \_ ps -ef --forest
-```
-
 # Command "tasklist"
-Command used to show current running processes on the system. Option "/v" for verbose. Also "/SVC" to check associated services to processes.
+Command used to show current running processes on the system. Option "/v" for verbose. Also "/SVC" to check associated services to processes. Also "tasklist /fi "pid eq 840" /V" For verbose filtering by PID.
 ```powershell
 tasklist
 
@@ -371,86 +352,41 @@ CommandLine   ExecutablePath                  Name        ProcessId
 "ctfmon.exe"  C:\Windows\system32\ctfmon.exe  ctfmon.exe  2592
 ```
 
-# Command "systemctl"
-Another command to display a list of system services and the associated state. "systemctl list-units --type=service --state=running --no-legend" for current running processes
-```bash
-systemctl list-units --type=service --state=running --no-legend 
-  UNIT                           LOAD   ACTIVE SUB     DESCRIPTION                                   
-  accounts-daemon.service        loaded active running Accounts Service
-  colord.service                 loaded active running Manage, Install and Generate Color Profiles
-  cron.service                   loaded active running Regular background program processing daemon
-  dbus.service                   loaded active running D-Bus System Message Bus
+# Command "wmic startup"
+Will display info about processes configured to be run on Windows boot. Using "list brief" for short answer and "list full" for verbose.
+```powershell
+wmic startup list brief
+Caption                                                   Command                                                                                                 User
+MicrosoftEdgeAutoLaunch_DCC7F3E742907DE2B0F8468B0BE79833  "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --no-startup-window --win-session-start  DESKTOP-O5LIVH3\testuser
+OneDrive                                                  "C:\Users\testuser\AppData\Local\Microsoft\OneDrive\OneDrive.exe" /background                           DESKTOP-O5LIVH3\testuser
+SecurityHealth                                            %windir%\system32\SecurityHealthSystray.exe                                                             Public
+VBoxTray                                                  %SystemRoot%\system32\VBoxTray.exe                                                                      Public
 ```
 
-# Command "lsmod"
-Command used to show the status of modules in the Linux Kernel
-```bash
-lsmod  
-Module                  Size  Used by
-snd_seq_dummy          12288  0
-snd_hrtimer            12288  1
-snd_seq               114688  7 snd_seq_dummy
-snd_seq_device         16384  1 snd_seq
-rfkill                 40960  2
-qrtr                   57344  4
-vboxsf                 49152  0
+# Command "wmic service"
+Command used to show info about services on host. Using "list brief" for short answer and "list full" for verbose.
+```powershell
+wmic service where "State='Running'" get Name,ProcessID,StartMode,State,Status
+Name                    ProcessId  StartMode  State    Status
+Appinfo                 444        Manual     Running  OK
+AppXSvc                 2368       Manual     Running  OK
+AudioEndpointBuilder    1052       Auto       Running  OK
+Audiosrv                1560       Auto       Running  OK
+BFE                     1864       Auto       Running  OK
+BrokerInfrastructure    764        Auto       Running  OK
+camsvc                  1724       Manual     Running  OK
+CDPSvc                  1184       Auto       Running  OK
+ClipSVC                 2368       Manual     Running  OK
+CoreMessagingRegistrar  860        Auto       Running  OK
+CryptSvc                1284       Auto       Running  OK
 ```
 
-# Command "lsof"
-Command used to list open files. "-c <PROCESS NAME>" to list open files on specific process:
-```bash
-lsof -c cron
-COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
-cron    604 root  cwd    DIR                8,1     4096 2490640 /var/spool/cron
-cron    604 root  rtd    DIR                8,1     4096       2 /
-cron    604 root  txt    REG                8,1    60064 4456874 /usr/sbin/cron
+# Command "reg query"
+Command used to check registry for startup folder configured processes. Also can be run against "RunOnce".
+```powershell
+reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+    MicrosoftEdgeAutoLaunch_DCC7F3E742907DE2B0F8468B0BE79833    REG_SZ    "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --no-startup-window --win-session-start
+    OneDrive    REG_SZ    "C:\Users\testuser\AppData\Local\Microsoft\OneDrive\OneDrive.exe" /background
 ```
-
-Command "lsof -nPi | cut -f 1 -d " "| uniq | tail -n +2" to list open files using the network:
-```bash
-lsof -nPi | cut -f 1 -d " "| uniq | tail -n +2
-NetworkMa
-```
-
-Command "-p <PID>" to list open files by specific PID 
-```bash
-lsof -p 604                                   
-COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF    NODE NAME
-cron    604 root  cwd    DIR                8,1     4096 2490640 /var/spool/cron
-cron    604 root  rtd    DIR                8,1     4096       2 /
-cron    604 root  txt    REG                8,1    60064 4456874 /usr/sbin/cron
-cron    604 root  mem    REG                8,1  3052896 4759752 /usr/lib/locale/locale-archive
-cron    604 root  mem    REG                8,1    30632 4632772 /usr/lib/x86_64-linux-gnu/libcap-ng.so.0.0.0
-```
-
-# Command "ls"
-Command used to the files of a directory. "-al /proc/<PID>/exe" to get the path of suspicious process PID:
-```bash
-ls -al /proc/604/exe 
-lrwxrwxrwx 1 root root 0 Jun 26 08:23 /proc/604/exe -> /usr/sbin/cron
-```
-
-# Command "less"
-Command used to monitor logs in real time, with option "+F /var/log/filename"
-```bash
-less +F /var/log/messages
-```
-
----
-
-# AUTORUN AND AUTOLOAD INFORMATION
-
----
-
-# Command "crontab"
-Crontab can be used to review or schedule specific commands/tasks execution in Linux. To list all cron jobs will use "-l"
-```bash
-# crontab -l
-# Edit this file to introduce tasks to be run by cron.
-10 5 1 * * ls /var/log/ 
-```
-
-With option "-u root -l" will list cron jobs by root and other UID 0 accounts:
-```bash
-# crontab -u root -l
-# Edit this file to introduce tasks to be run by cron.
