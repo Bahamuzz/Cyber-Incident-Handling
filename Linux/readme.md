@@ -264,6 +264,16 @@ Proto Recv-Q Send-Q Local Address           Foreign Address         State       
 udp        0      0 x.x.x.x:x            x.x.x.x:x             ESTABLISHED 614/NetworkManager
 ```
 
+Also the following one to check in real time active connections:
+```bash
+netstat -antup
+netstat --inet -ap
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 localhost:1234          localhost:54458         ESTABLISHED 1643/nc             
+tcp        0      0 localhost:54458         localhost:1234          ESTABLISHED 1663/nc
+```
+
 # Command "route"
 Command used to show/manipulate the IP routing table
 ```bash
